@@ -6,6 +6,10 @@ function sleep(ms: any) {
 }
 async function main() {
   try {
+    const [owner] = await ethers.getSigners();
+    const ownerAddress = await owner.getAddress();
+    console.log("Owner address", ownerAddress);
+
     const contractFactory = await ethers.getContractFactory("Token");
     const contract = await contractFactory.deploy("Test Token", "Test", 1000000);
     await contract.deployed();

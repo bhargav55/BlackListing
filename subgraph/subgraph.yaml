@@ -8,9 +8,9 @@ dataSources:
     name: Token
     network: fuji
     source:
-      address: "0xDaACfB65093f9BDEcd867D36d00249C9a51f5E73"
+      address: "0xb1bDEfcEB6C14D992Ff8d04097B7Ab2E4Dc7BAD9"
       abi: Token
-      startBlock: 86514516
+      startBlock: 27863580
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -29,9 +29,9 @@ dataSources:
     name: TokenWithMerkle
     network: fuji
     source:
-      address: "0xDaACfB65093f9BDEcd867D36d00249C9a51f5E73"
+      address: "0xb1bDEfcEB6C14D992Ff8d04097B7Ab2E4Dc7BAD9"
       abi: Token
-      startBlock: 86514516
+      startBlock: 27863580
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -45,6 +45,6 @@ dataSources:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
 
-      file: ./src/TokenMapping.ts
+      file: ./src/TokenWithMerkleMapping.ts
  
 

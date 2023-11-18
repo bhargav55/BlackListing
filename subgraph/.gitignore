@@ -1,0 +1,13 @@
+# folders
+build/
+node_modules/
+
+# files
+.idea
+*.env
+*.log
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+subgraph.yaml

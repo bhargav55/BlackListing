@@ -72,28 +72,20 @@ function createTestnetConfig(network: keyof typeof chainIds): NetworkUserConfig 
   } else {
     url = "https://" + network + ".infura.io/v3/" + infuraApiKey;
   }
-  return {
-    url: url,
-    chainId: chainIds[network],
-    accounts: [process.env.HEDERA_HEX_PRIVATE_KEY1 || ""],
-    gas: "auto",
-    gasPrice: "auto",
-    gasMultiplier: 3,
-  };
 
-  // return {
-  //   accounts: {
-  //     count: 10,
-  //     initialIndex: 0,
-  //     mnemonic,
-  //     path: "m/44'/60'/0'/0",
-  //   },
-  //   chainId: chainIds[network],
-  //   url,
-  //   timeout: 1000000,
-  //   gasMultiplier: 2,
-  //   gasPrice: "auto",
-  // };
+  return {
+    accounts: {
+      count: 10,
+      initialIndex: 0,
+      mnemonic,
+      path: "m/44'/60'/0'/0",
+    },
+    chainId: chainIds[network],
+    url,
+    timeout: 1000000,
+    gasMultiplier: 2,
+    gasPrice: "auto",
+  };
 }
 
 const config: HardhatUserConfig = {
@@ -116,13 +108,7 @@ const config: HardhatUserConfig = {
     arbitrum_mainnet: createTestnetConfig("arbitrum_mainnet"),
     hedera: createTestnetConfig("hedera"),
   },
-  etherscan: {
-    apiKey: {
-      polygon: "QH8HG9X72DTXG18RBQTTV1AKPV4IH2Y34G",
-      bsc: "1KAZ4SJGQ1XUNBZTKMABFANY5BAMR2T5QF",
-      arbitrumOne: "6PMCCZ7M3BZ48WPPRN55UYK3F9MNXRE314",
-    },
-  },
+  
   paths: {
     artifacts: "./artifacts",
     cache: "./cache",

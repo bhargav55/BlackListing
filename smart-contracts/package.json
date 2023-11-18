@@ -1,20 +1,8 @@
 {
-<<<<<<< HEAD
-  "name": "bhavish-prediction",
-  "description": "bhavish prediction market contracts",
-  "version": "1.0.0",
-  "author": "shreedhar888@gmail.com",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/bhavish-finance/bhavish-contracts/issues"
-  },
-  "homepage": "https://github.com/bhavish-finance/bhavish-contracts#readme",
-=======
   "name": "whitelisting",
   "description": "whitelisting contracts",
   "version": "1.0.0",
   "license": "Apache-2.0",
->>>>>>> eb4fe33 (contracts)
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.2",
@@ -68,11 +56,8 @@
     "ethereumjs-wallet": "^1.0.1",
     "graphql-request": "^4.2.0",
     "hardhat-gas-reporter": "^1.0.4",
-<<<<<<< HEAD
-=======
     "keccak256": "^1.0.6",
     "merkletreejs": "^0.3.11",
->>>>>>> eb4fe33 (contracts)
     "truffle": "^5.1.56",
     "truffle-contract-size": "^2.0.1",
     "truffle-hdwallet-provider": "^1.0.17",
