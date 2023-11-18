@@ -1,0 +1,50 @@
+specVersion: 0.0.4
+description: Whitelisting
+repository: https://github.com/graphprotocol/example-subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Token
+    network: fuji
+    source:
+      address: "0xDaACfB65093f9BDEcd867D36d00249C9a51f5E73"
+      abi: Token
+      startBlock: 86514516
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - TokenTransfer
+      abis:
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+
+      file: ./src/TokenMapping.ts
+  - kind: ethereum/contract
+    name: TokenWithMerkle
+    network: fuji
+    source:
+      address: "0xDaACfB65093f9BDEcd867D36d00249C9a51f5E73"
+      abi: Token
+      startBlock: 86514516
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - TokenTransfer
+      abis:
+        - name: Token
+          file: ./abis/Token.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+
+      file: ./src/TokenMapping.ts
+ 
+
