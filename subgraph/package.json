@@ -1,0 +1,34 @@
+{
+  "name": "whitelisting-subgraph",
+  "version": "0.1.0",
+  "scripts": {
+    "create": "graph create bhargav55/whitelisting --node https://api.thegraph.com/deploy/",
+    "create-local": "graph create bhargav55/whitelisting --node http://127.0.0.1:8020",
+    "codegen": "graph codegen",
+    "build": "yarn prepare:subgraph && graph build",
+    "deploy-studio": "graph codegen && graph deploy  --node https://api.studio.thegraph.com/deploy/ ",
+    "deploy": "graph codegen && graph deploy bhargav55/whitelisting  --ipfs https://api.thegraph.com/ipfs/   --node https://api.thegraph.com/deploy/",
+    "deploy-local": "graph deploy bhargav55/whitelisting --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
+    "prepare:subgraph": "cat ./config/address.json | mustache  - subgraph.template.yaml > subgraph.yaml",
+    "lint": "yarn run lint:ts && yarn run prettier:list-different",
+    "lint:ts": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore --ext .js,.ts .",
+    "prettier": "prettier --config .prettierrc --write \"**/*.{js,json,md,ts}\"",
+    "prettier:list-different": "prettier --config .prettierrc --list-different \"**/*.{js,json,md,ts}\""
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.2",
+    "@graphprotocol/graph-cli": "^0.51.0",
+    "@graphprotocol/graph-ts": "^0.26.0",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^6.12.0",
+    "husky": "^4.3.0",
+    "prettier": "^2.1.2",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "mustache": "^4.1.0"
+  }
+}

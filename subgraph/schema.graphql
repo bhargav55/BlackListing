@@ -1,0 +1,12 @@
+type TokenTransfer @entity {
+  id: ID!
+  userAddress: Bytes!
+  transferAddress: [Bytes!]!
+}
+
+type TokenWithMerkleTransfer @entity {
+  id: ID!
+  userAddress: Bytes!
+  transferAddress: [Bytes!]!
+}
+
