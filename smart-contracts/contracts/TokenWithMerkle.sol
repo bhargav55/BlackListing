@@ -21,6 +21,15 @@ contract TokenWithMerkle is ERC20, Ownable {
         merkleRoot = _merkleRoot;
     }
 
+    function purchase(uint256 _amount, bytes32[] memory _proof) external payable {
+         bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
+        require(MerkleProof.verify(_proof, merkleRoot, leaf), "ERC20: purchase blacklisted");
+        require(msg.value == _amount * cost, "ERC20: not enough to purchase");
+        (bool success, ) = owner().call{ value: msg.value }("");
+        require(success, "TRANSFER_FAILED");
+        _mint(msg.sender, _amount);
+    }
+
     function transfer(address _to, uint256 _value) public override returns (bool) {
         bytes32[] memory data = new bytes32[](0);
         _transferWithProof(msg.sender, _to, _value, data);

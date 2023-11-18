@@ -8,7 +8,7 @@ dataSources:
     name: Token
     network: fuji
     source:
-      address: "0xb1bDEfcEB6C14D992Ff8d04097B7Ab2E4Dc7BAD9"
+      address: "0xBD23faDF56E4d271fbB0BD4FA04F3f83ED46c8A0"
       abi: Token
       startBlock: 27863580
     mapping:
@@ -28,7 +28,7 @@ dataSources:
     name: TokenWithMerkle
     network: fuji
     source:
-      address: "0xb1bDEfcEB6C14D992Ff8d04097B7Ab2E4Dc7BAD9"
+      address: "0xBD23faDF56E4d271fbB0BD4FA04F3f83ED46c8A0"
       abi: Token
       startBlock: 27863580
     mapping:

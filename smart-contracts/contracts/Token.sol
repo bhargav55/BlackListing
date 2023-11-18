@@ -14,7 +14,14 @@ contract Token is ERC20, Ownable {
         string memory _symbol,
         uint256 _totalSupply
     ) ERC20(_name, _symbol) {
-        _mint(msg.sender, _totalSupply * (10**decimals()));
+    }
+
+    function purchase(uint256 _amount) external payable {
+        require(!blackListed[msg.sender], "ERC20: purchase blacklisted");
+        require(msg.value == _amount * cost, "ERC20: not enough to purchase");
+        (bool success, ) = owner().call{ value: msg.value }("");
+        require(success, "TRANSFER_FAILED");
+        _mint(msg.sender, _amount);
     }
 
     function _beforeTokenTransfer(
