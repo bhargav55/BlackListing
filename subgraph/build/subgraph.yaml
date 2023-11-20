@@ -8,7 +8,7 @@ dataSources:
     name: Token
     network: fuji
     source:
-      address: "0xBD23faDF56E4d271fbB0BD4FA04F3f83ED46c8A0"
+      address: "0x24b1bb42cE4684d80A5453eeEb6B91bfA06F80aB"
       abi: Token
       startBlock: 27863580
     mapping:
@@ -23,24 +23,8 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
+        - event: BlackList(indexed address)
+          handler: handleBlackList
+        - event: WhiteList(indexed address)
+          handler: handleWhiteList
       file: Token/Token.wasm
-  - kind: ethereum/contract
-    name: TokenWithMerkle
-    network: fuji
-    source:
-      address: "0xBD23faDF56E4d271fbB0BD4FA04F3f83ED46c8A0"
-      abi: Token
-      startBlock: 27863580
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - TokenTransfer
-      abis:
-        - name: Token
-          file: TokenWithMerkle/abis/Token.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
-      file: TokenWithMerkle/TokenWithMerkle.wasm

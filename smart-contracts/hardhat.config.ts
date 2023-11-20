@@ -108,7 +108,7 @@ const config: HardhatUserConfig = {
     arbitrum_mainnet: createTestnetConfig("arbitrum_mainnet"),
     hedera: createTestnetConfig("hedera"),
   },
-  
+
   paths: {
     artifacts: "./artifacts",
     cache: "./cache",

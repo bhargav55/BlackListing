@@ -1,7 +1,7 @@
 {
   "network": "fuji",
-  "TokenAddress": "0xBD23faDF56E4d271fbB0BD4FA04F3f83ED46c8A0",
+  "TokenAddress": "0x24b1bb42cE4684d80A5453eeEb6B91bfA06F80aB",
   "TokenStartBlock": 27863580,
-  "TokenWithMerkleAddress": "0x458ffa879705b4Eb50563CC61b02418D63DC70e0",
-  "TokenWithMerkletartBlock": 27863580
+  "TokenWithMerkleAddress": "0x380fA0056c3c36fE16918Cc15EA2d4c7D23F4D89",
+  "TokenWithMerkleStartBlock": 27863580
 }

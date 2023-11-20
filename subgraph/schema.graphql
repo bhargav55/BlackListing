@@ -4,9 +4,16 @@ type TokenTransfer @entity {
   transferAddress: [Bytes!]!
 }
 
-type TokenWithMerkleTransfer @entity {
+# type TokenWithMerkleTransfer @entity {
+#   id: ID!
+#   userAddress: Bytes!
+#   transferAddress: [Bytes!]!
+# }
+
+type User @entity {
   id: ID!
   userAddress: Bytes!
   transferAddress: [Bytes!]!
+  isBlackListed: Boolean!
 }
 

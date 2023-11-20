@@ -23,28 +23,36 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
+        - event: BlackList(indexed address)
+          handler: handleBlackList
+        - event: WhiteList(indexed address)
+          handler: handleWhiteList      
 
       file: ./src/TokenMapping.ts
-  - kind: ethereum/contract
-    name: TokenWithMerkle
-    network: {{network}}
-    source:
-      address: "{{TokenAddress}}"
-      abi: Token
-      startBlock: {{TokenStartBlock}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - TokenTransfer
-      abis:
-        - name: Token
-          file: ./abis/Token.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
+  # - kind: ethereum/contract
+  #   name: TokenWithMerkle
+  #   network: {{network}}
+  #   source:
+  #     address: "{{TokenWithMerkleAddress}}"
+  #     abi: TokenMerkle
+  #     startBlock: {{TokenWithMerkleStartBlock}}
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.5
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - TokenTransfer
+  #     abis:
+  #       - name: TokenMerkle
+  #         file: ./abis/TokenMerkle.json
+  #     eventHandlers:
+  #       - event: Transfer(indexed address,indexed address,uint256)
+  #         handler: handleTransfer
+  #       - event: BlackList(indexed address)
+  #         handler: handleBlackList
+  #       - event: WhiteList(indexed address)
+  #         handler: handleWhiteList     
 
-      file: ./src/TokenWithMerkleMapping.ts
+  #     file: ./src/TokenWithMerkleMapping.ts
  
 

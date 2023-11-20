@@ -120,9 +120,9 @@ export class WhiteList__Params {
   }
 }
 
-export class Token extends ethereum.SmartContract {
-  static bind(address: Address): Token {
-    return new Token("Token", address);
+export class TokenMerkle extends ethereum.SmartContract {
+  static bind(address: Address): TokenMerkle {
+    return new TokenMerkle("TokenMerkle", address);
   }
 
   allowance(owner: Address, spender: Address): BigInt {
@@ -282,6 +282,21 @@ export class Token extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
+  merkleRoot(): Bytes {
+    let result = super.call("merkleRoot", "merkleRoot():(bytes32)", []);
+
+    return result[0].toBytes();
+  }
+
+  try_merkleRoot(): ethereum.CallResult<Bytes> {
+    let result = super.tryCall("merkleRoot", "merkleRoot():(bytes32)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
+
   name(): string {
     let result = super.call("name", "name():(string)", []);
 
@@ -342,19 +357,19 @@ export class Token extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  transfer(to: Address, amount: BigInt): boolean {
+  transfer(_to: Address, _value: BigInt): boolean {
     let result = super.call("transfer", "transfer(address,uint256):(bool)", [
-      ethereum.Value.fromAddress(to),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromAddress(_to),
+      ethereum.Value.fromUnsignedBigInt(_value)
     ]);
 
     return result[0].toBoolean();
   }
 
-  try_transfer(to: Address, amount: BigInt): ethereum.CallResult<boolean> {
+  try_transfer(_to: Address, _value: BigInt): ethereum.CallResult<boolean> {
     let result = super.tryCall("transfer", "transfer(address,uint256):(bool)", [
-      ethereum.Value.fromAddress(to),
-      ethereum.Value.fromUnsignedBigInt(amount)
+      ethereum.Value.fromAddress(_to),
+      ethereum.Value.fromUnsignedBigInt(_value)
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -423,6 +438,14 @@ export class ConstructorCall__Inputs {
   get _symbol(): string {
     return this._call.inputValues[1].value.toString();
   }
+
+  get _totalSupply(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _merkleRoot(): Bytes {
+    return this._call.inputValues[3].value.toBytes();
+  }
 }
 
 export class ConstructorCall__Outputs {
@@ -459,6 +482,36 @@ export class AddBlackListCall__Outputs {
   _call: AddBlackListCall;
 
   constructor(call: AddBlackListCall) {
+    this._call = call;
+  }
+}
+
+export class AddWhiteListCall extends ethereum.Call {
+  get inputs(): AddWhiteListCall__Inputs {
+    return new AddWhiteListCall__Inputs(this);
+  }
+
+  get outputs(): AddWhiteListCall__Outputs {
+    return new AddWhiteListCall__Outputs(this);
+  }
+}
+
+export class AddWhiteListCall__Inputs {
+  _call: AddWhiteListCall;
+
+  constructor(call: AddWhiteListCall) {
+    this._call = call;
+  }
+
+  get _user(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class AddWhiteListCall__Outputs {
+  _call: AddWhiteListCall;
+
+  constructor(call: AddWhiteListCall) {
     this._call = call;
   }
 }
@@ -597,42 +650,16 @@ export class PurchaseCall__Inputs {
   get _amount(): BigInt {
     return this._call.inputValues[0].value.toBigInt();
   }
+
+  get _proof(): Array<Bytes> {
+    return this._call.inputValues[1].value.toBytesArray();
+  }
 }
 
 export class PurchaseCall__Outputs {
   _call: PurchaseCall;
 
   constructor(call: PurchaseCall) {
-    this._call = call;
-  }
-}
-
-export class RemoveBlackListCall extends ethereum.Call {
-  get inputs(): RemoveBlackListCall__Inputs {
-    return new RemoveBlackListCall__Inputs(this);
-  }
-
-  get outputs(): RemoveBlackListCall__Outputs {
-    return new RemoveBlackListCall__Outputs(this);
-  }
-}
-
-export class RemoveBlackListCall__Inputs {
-  _call: RemoveBlackListCall;
-
-  constructor(call: RemoveBlackListCall) {
-    this._call = call;
-  }
-
-  get _user(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class RemoveBlackListCall__Outputs {
-  _call: RemoveBlackListCall;
-
-  constructor(call: RemoveBlackListCall) {
     this._call = call;
   }
 }
@@ -663,6 +690,36 @@ export class RenounceOwnershipCall__Outputs {
   }
 }
 
+export class SetMerkleRootCall extends ethereum.Call {
+  get inputs(): SetMerkleRootCall__Inputs {
+    return new SetMerkleRootCall__Inputs(this);
+  }
+
+  get outputs(): SetMerkleRootCall__Outputs {
+    return new SetMerkleRootCall__Outputs(this);
+  }
+}
+
+export class SetMerkleRootCall__Inputs {
+  _call: SetMerkleRootCall;
+
+  constructor(call: SetMerkleRootCall) {
+    this._call = call;
+  }
+
+  get _merkleRoot(): Bytes {
+    return this._call.inputValues[0].value.toBytes();
+  }
+}
+
+export class SetMerkleRootCall__Outputs {
+  _call: SetMerkleRootCall;
+
+  constructor(call: SetMerkleRootCall) {
+    this._call = call;
+  }
+}
+
 export class TransferCall extends ethereum.Call {
   get inputs(): TransferCall__Inputs {
     return new TransferCall__Inputs(this);
@@ -680,11 +737,11 @@ export class TransferCall__Inputs {
     this._call = call;
   }
 
-  get to(): Address {
+  get _to(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get amount(): BigInt {
+  get _value(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 }
@@ -773,32 +830,40 @@ export class TransferOwnershipCall__Outputs {
   }
 }
 
-export class UpdateBlackListCall extends ethereum.Call {
-  get inputs(): UpdateBlackListCall__Inputs {
-    return new UpdateBlackListCall__Inputs(this);
+export class TransferWithProofCall extends ethereum.Call {
+  get inputs(): TransferWithProofCall__Inputs {
+    return new TransferWithProofCall__Inputs(this);
   }
 
-  get outputs(): UpdateBlackListCall__Outputs {
-    return new UpdateBlackListCall__Outputs(this);
+  get outputs(): TransferWithProofCall__Outputs {
+    return new TransferWithProofCall__Outputs(this);
   }
 }
 
-export class UpdateBlackListCall__Inputs {
-  _call: UpdateBlackListCall;
+export class TransferWithProofCall__Inputs {
+  _call: TransferWithProofCall;
 
-  constructor(call: UpdateBlackListCall) {
+  constructor(call: TransferWithProofCall) {
     this._call = call;
   }
 
-  get _users(): Array<Address> {
-    return this._call.inputValues[0].value.toAddressArray();
+  get _to(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _value(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get _proof(): Array<Bytes> {
+    return this._call.inputValues[2].value.toBytesArray();
   }
 }
 
-export class UpdateBlackListCall__Outputs {
-  _call: UpdateBlackListCall;
+export class TransferWithProofCall__Outputs {
+  _call: TransferWithProofCall;
 
-  constructor(call: UpdateBlackListCall) {
+  constructor(call: TransferWithProofCall) {
     this._call = call;
   }
 }
