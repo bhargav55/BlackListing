@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "@apollo/client": "^3.8.7",
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "@openzeppelin/merkle-tree": "^1.0.5",
         "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/react": "^13.4.0",

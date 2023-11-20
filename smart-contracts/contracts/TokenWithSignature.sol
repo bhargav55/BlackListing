@@ -9,7 +9,8 @@ contract TokenWithSignature is ERC20, Ownable {
     using ECDSA for bytes32;
     uint256 public cost = 0.01 ether;
 
-    address private signerAddress = 0x0819BBae96c2C0F15477D212e063303221Cf24b9;
+    // relayer address
+    address private signerAddress = 0xa0b22BbCDF7dbe1E7A39ECd79130b882B3A6C102;
 
     constructor(
         string memory _name,
@@ -31,7 +32,9 @@ contract TokenWithSignature is ERC20, Ownable {
     ) external {
         _transferWithSignature(msg.sender, _to, _value, signature);
     }
-
+    // blacklist wallets are stored inside a relayer
+    // txn is first sent to relayer, validates the user, then sends txn onchain
+    // validate the signature so that msg.sender is always relayer
     function _transferWithSignature(
         address _from,
         address _to,
