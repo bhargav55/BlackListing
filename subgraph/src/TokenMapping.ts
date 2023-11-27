@@ -57,6 +57,13 @@ export function handleBlackList(event: BlackListEvent): void {
     let user = User.load(transferAddress[i].toHexString());
     if (user!.userAddress.toHexString() == "0x0000000000000000000000000000000000000000") continue;
     user!.isBlackListed = true;
+    let nestedUsers = user!.transferAddress;
+    for(let  j =0;j<nestedUsers.length;j++){
+      let nestedUser = User.load(nestedUsers[j].toHexString());
+      if (nestedUser!.userAddress.toHexString() == "0x0000000000000000000000000000000000000000") continue;
+      nestedUser!.isBlackListed = true;
+      nestedUser!.save();
+    }
     user!.save();
   }
 }
@@ -74,6 +81,13 @@ export function handleWhiteList(event: WhiteListEvent): void {
     let user = User.load(transferAddress[i].toHexString());
     if (user!.userAddress.toHexString() == "0x0000000000000000000000000000000000000000") continue;
     user!.isBlackListed = false;
+    let nestedUsers = user!.transferAddress;
+    for(let  j =0;j<nestedUsers.length;j++){
+      let nestedUser = User.load(nestedUsers[j].toHexString());
+      if (nestedUser!.userAddress.toHexString() == "0x0000000000000000000000000000000000000000") continue;
+      nestedUser!.isBlackListed = false;
+      nestedUser!.save();
+    }
     user!.save();
   }
 }

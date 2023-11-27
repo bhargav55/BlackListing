@@ -29,7 +29,7 @@ function Admin(props) {
                 let count = 0;
                 await sleep(5000);
                 do {
-                    await sleep(2000);
+                    await sleep(5000);
 
                     afterUsers = await GetBlackListedUsers();
                     count++;
@@ -62,7 +62,7 @@ function Admin(props) {
                 await sleep(5000);
 
                 do {
-                    await sleep(2000);
+                    await sleep(5000);
                     afterUsers = await GetBlackListedUsers();
                     count++;
                     console.log("before users length", beforeUsers.length);
