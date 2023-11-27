@@ -11,7 +11,7 @@ async function main() {
     console.log("Owner address", ownerAddress);
 
     const contractFactory = await ethers.getContractFactory("Token");
-    const contract = await contractFactory.deploy("Test Token", "Test");
+    const contract = await contractFactory.deploy("Test XToken1", "XTest1");
     await contract.deployed();
     console.log("contract: ", contract.address);
   } catch (ex) {

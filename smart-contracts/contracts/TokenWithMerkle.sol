@@ -69,6 +69,7 @@ contract TokenWithMerkle is ERC20, Ownable {
 
         _transfer(_from, _to, _value);
     }
+
     // get the blacklisted wallets from offchain via indexer, create a merkle tree and update roothash
     function setMerkleRoot(bytes32 _merkleRoot) external onlyOwner {
         merkleRoot = _merkleRoot;
@@ -78,6 +79,7 @@ contract TokenWithMerkle is ERC20, Ownable {
     function addBlackList(address _user) external onlyOwner {
         emit BlackList(_user);
     }
+
     // indexer indexes the event and remove the transfer addresses linked to this wallet as blacklist
     function addWhiteList(address _user) external onlyOwner {
         emit WhiteList(_user);
