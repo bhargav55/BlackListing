@@ -11,10 +11,7 @@ contract Token is ERC20, Ownable {
     // we can use merkle root, but we need merkle proof from offchain as param
     mapping(address => bool) blackListed;
 
-    constructor(
-        string memory _name,
-        string memory _symbol
-    ) ERC20(_name, _symbol) {}
+    constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) {}
 
     function purchase(uint256 _amount) external payable {
         require(!blackListed[msg.sender], "ERC20: purchase blacklisted");
@@ -33,18 +30,17 @@ contract Token is ERC20, Ownable {
         require(!blackListed[to], "ERC20: receiver blackisted");
     }
 
-    function updateBlackList(address[] memory _users) external onlyOwner {
-        for (uint256 i = 0; i < _users.length; i++) blackListed[_users[i]] = true;
+    function updateBlackList(address[] memory _users, bool _isBlacklisted) external onlyOwner {
+        for (uint256 i = 0; i < _users.length; i++) blackListed[_users[i]] = _isBlacklisted;
     }
 
     function addBlackList(address _user) external onlyOwner {
         blackListed[_user] = true;
         emit BlackList(_user);
     }
+
     function removeBlackList(address _user) external onlyOwner {
         blackListed[_user] = false;
         emit WhiteList(_user);
     }
-
-    // function addBlack
 }

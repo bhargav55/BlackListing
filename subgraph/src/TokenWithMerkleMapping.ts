@@ -1,5 +1,5 @@
 // /*eslint prefer-const: "off"*/
-// import { 
+// import {
 //   Transfer as TransferEvent,
 //   BlackList as BlackListEvent,
 //   WhiteList as WhiteListEvent } from "../generated/TokenWithMerkle/TokenMerkle";

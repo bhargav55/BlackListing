@@ -32,6 +32,7 @@ contract TokenWithSignature is ERC20, Ownable {
     ) external {
         _transferWithSignature(msg.sender, _to, _value, signature);
     }
+
     // blacklist wallets are stored inside a relayer
     // txn is first sent to relayer, validates the user, then sends txn onchain
     // validate the signature so that msg.sender is always relayer

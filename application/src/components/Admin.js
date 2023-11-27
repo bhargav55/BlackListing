@@ -8,6 +8,10 @@ import {
 } from "../contractHandlers";
 import { toast } from "react-toastify";
 import { SpinnerCircular } from "spinners-react";
+import { SLIP44_ECDSA_ETH_PATH } from "@hashgraph/sdk";
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function Admin(props) {
     const [address, setAddress] = useState("");
@@ -22,20 +26,28 @@ function Admin(props) {
         if (event.nativeEvent.submitter.name == "blackList")
             BlackListUser(user, address).then(async () => {
                 let afterUsers = beforeUsers;
+                let count = 0;
+                await sleep(5000);
                 do {
+                    await sleep(5000);
+
                     afterUsers = await GetBlackListedUsers();
+                    count++;
+                    console.log("before users length", beforeUsers.length);
+                    console.log("after users length", afterUsers.length);
+                    console.log("count:", count);
                 } while (
                     afterUsers.length == 0 &&
-                    beforeUsers.length == afterUsers.length
+                    beforeUsers.length == afterUsers.length &&
+                    count < 5
                 );
+                console.log("before users length", beforeUsers.length);
+                console.log("after users length", afterUsers.length);
+                console.log("count:", count);
 
                 if (Math.abs(afterUsers.length - beforeUsers.length) > 1) {
-                    updateBlackListUser(user, afterUsers).then(() => {
-                        if ("error") {
-                            toast.error("Error ");
-                        } else {
-                            toast.success("Blacklist updated");
-                        }
+                    updateBlackListUser(user, afterUsers, true).then(() => {
+                        toast.success("Blacklist updated");
                         setLoading(false);
                     });
                 } else {
@@ -46,12 +58,34 @@ function Admin(props) {
         else
             WhiteListUser(user, address).then(async () => {
                 let afterUsers = beforeUsers;
+                let count = 0;
+                await sleep(5000);
+
                 do {
+                    await sleep(5000);
                     afterUsers = await GetBlackListedUsers();
-                } while (beforeUsers.length == afterUsers.length);
+                    count++;
+                    console.log("before users length", beforeUsers.length);
+                    console.log("after users length", afterUsers.length);
+                    console.log("count:", count);
+                } while (beforeUsers.length == afterUsers.length && count < 5);
+                console.log("before users length", beforeUsers.length);
+                console.log("after users length", afterUsers.length);
+                console.log("count:", count);
 
                 if (Math.abs(afterUsers.length - beforeUsers.length) > 1) {
-                    updateBlackListUser(user, afterUsers).then(() => {
+                    let finalUsers = [];
+                    for (let i = 0; i < beforeUsers.length; i++) {
+                        let found = false;
+                        for (let j = 0; j < afterUsers.length; j++) {
+                            if (afterUsers[j] == beforeUsers[i]) {
+                                found = true;
+                            }
+                        }
+                        if (!found) finalUsers.push(beforeUsers[i]);
+                    }
+                    console.log("finalUsers:", finalUsers);
+                    updateBlackListUser(user, finalUsers, false).then(() => {
                         toast.success("Blacklist updated");
                         setLoading(false);
                     });
